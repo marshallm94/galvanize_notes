@@ -945,7 +945,7 @@ y_hat = knn.predict(x_test)
 
 The term SVM is generally used to describe the group of three slightly different models. All three of these models divide your data by using a $hyperplane$, which is a $p$ dimensional point/line/plane for 1, 2 and 3+ dimensions respectively.
 
-All three of the below classifiers are defined by their $support~vectors$, which are training observations that have the shortest orthogonal distance to the hyperplane. This distance is the $margin$ of the hyperplane.
+All three of the below classifiers are defined by their $support~vectors$, which are training observations that have the shortest orthogonal distance to the hyperplane. This distance is the $margin$ of the hyperplane. **Since the hyperplane is only defined by a few training observations, it is memory efficient.**
 
 1. Maximal Margin Classifier
 
@@ -954,9 +954,20 @@ All three of the below classifiers are defined by their $support~vectors$, which
     * The **best** hyperplane out of the set of these hyperplanes is the one that is farthest from its support vectors, which in other words, maximizes the margin. The hyperplane is the *Maximal Margin Classifier*.
 
     * If there is not hyperplane that **perfectly** separates the classes, then the Maximal Margin Classifier does not exist, and one of the other methods will need to be used.
-    
+
 2. Support Vector Classifier
+
+    * The SVC seeks to find the hyperplane that correctly classifies **most** of the training observations. It does allow some of the observations to be on the wrong side of the margin and to even be on the wrong side of the hyperplane (misclassified).
+
+    * The Tuning parameter $C$ can be described as the *budget for error*. **The arger the budget for errors to the hyperplane and to the margin, the higher the bias of your classifier and the lower the variance.** So, "turning the knob" of $C$ widens and narrows the margin around the hyperplane.
+
+        * So, when you set $C$ equal to zero, that is you allow for no violations to the hyperplane or the margin, you end up with the Maximal Margin Classifier.
+
+    * Note that whether a *large* $C$ corresponds to a "wider" or "narrower" margin is **not** consistent across textbooks or programming languages. In `sklearn`, a high $C$ corresponds to a narrow (low bias, high variance) margin, and a low $C$ corresponds to a wide (high vias, low variance) margin. This is in agreement with "Elements of Statistical Learning," and contradicts "Introduction to Statistical Learning."
+
 3. Support Vector Machine
+
+    *  
 
 
 
@@ -970,6 +981,7 @@ from sklearn.metrics import confusion_matrix, precision_score, recall_score, acc
 from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV
 from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
 from sklearn.ensemble import GradientBoostingRegressor, GradientBoostingClassifier,RandomForestRegressor, RandomForestClassifier, AdaBoostRegressor, AdaBoostClassifier, BaggingClassifier, BaggingRegressor
+from sklearn.svm import SVC
 
 def score_model(x_train, y_train, x_test, y_test, model):
     """
@@ -982,11 +994,6 @@ def score_model(x_train, y_train, x_test, y_test, model):
     acc = accuracy_score(y_test, y_hat)
     prec = precision_score(y_test, y_hat)
     recall = recall_score(y_test, y_hat)
-
-    if model.max_features == "auto":
-        num_features = m.floor(m.sqrt(x_train.shape[1]))
-    else:
-        num_features = model.max_features
 
     name = model.__class__.__name__
 
@@ -1002,10 +1009,15 @@ rf = RandomForestClassifier()
 score_model(x_train, y_train, x_test, y_test, rf)
 
 ada_boost = AdaBoostClassifier()
+score_model(x_train, y_train, x_test, y_test, ada_boost)
 ada_boost.fit(x_train, y_train)
 
 gradient_boost = GradientBoostingClassifier()
+score_model(x_train, y_train, x_test, y_test, gradient_boost)
 gradient_boost.fit(x_train, y_train)
+
+svc = SVC()
+score_model(x_train, y_train, x_test, y_test, svc)
 ```
 
 
