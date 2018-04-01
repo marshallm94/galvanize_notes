@@ -955,7 +955,7 @@ All three of the below classifiers are defined by their $support~vectors$, which
 
     * If there is not hyperplane that **perfectly** separates the classes, then the Maximal Margin Classifier does not exist, and one of the other methods will need to be used.
 
-2. Support Vector Classifier
+2. Support Vector Classifier (SVC)
 
     * The SVC seeks to find the hyperplane that correctly classifies **most** of the training observations. It does allow some of the observations to be on the wrong side of the margin and to even be on the wrong side of the hyperplane (misclassified).
 
@@ -965,13 +965,13 @@ All three of the below classifiers are defined by their $support~vectors$, which
 
     * Note that whether a *large* $C$ corresponds to a "wider" or "narrower" margin is **not** consistent across textbooks or programming languages. In `sklearn`, a high $C$ corresponds to a narrow (low bias, high variance) margin, and a low $C$ corresponds to a wide (high vias, low variance) margin. This is in agreement with "Elements of Statistical Learning," and contradicts "Introduction to Statistical Learning."
 
-3. Support Vector Machine
+3. Support Vector Machine (SVM)
 
-    *  
+    * SVM's utilizes $kernels$, which are **functions that project the feature space into a higher dimension where a hyperplane can be drawn between the classes.**
 
+    * The easiest way to visualize how a $kernel$ works is by thinking of adding polynomial terms to each of the predictors in the original space, which projects them into a higher dimensional space [Youtube Visualization](https://www.youtube.com/watch?v=3liCbRZPrZA). Note that when the kernel doesn't project the feature space into a higher dimension, the result is the Support Vector Classifier.
 
-
-
+    * Kernels don't have to be a polynomial expansions of the feature space, the can be **any function that manipulates the pairwise inner product of the support vectors.**
 
 ```python
 import math as m
