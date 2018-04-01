@@ -943,10 +943,22 @@ y_hat = knn.predict(x_test)
 
 #### Support Vector Machines (SVM's)
 
-The term SVM is generally used to describe the group of three slightly different models:
+The term SVM is generally used to describe the group of three slightly different models. All three of these models divide your data by using a $hyperplane$, which is a $p$ dimensional point/line/plane for 1, 2 and 3+ dimensions respectively.
 
-    1. Maximal Marginal Classifier
-    2. 
+All three of the below classifiers are defined by their $support~vectors$, which are training observations that have the shortest orthogonal distance to the hyperplane. This distance is the $margin$ of the hyperplane.
+
+1. Maximal Margin Classifier
+
+    * If a hyperplane exists that *perfectly* separates the classes in a data set, then there are an infinite number of hyperplanes that would separate the data.
+
+    * The **best** hyperplane out of the set of these hyperplanes is the one that is farthest from its support vectors, which in other words, maximizes the margin. The hyperplane is the *Maximal Margin Classifier*.
+
+    * If there is not hyperplane that **perfectly** separates the classes, then the Maximal Margin Classifier does not exist, and one of the other methods will need to be used.
+    
+2. Support Vector Classifier
+3. Support Vector Machine
+
+
 
 
 
