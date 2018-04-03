@@ -1020,6 +1020,31 @@ svc = SVC()
 score_model(x_train, y_train, x_test, y_test, svc)
 ```
 
+## Dimension Reduction Methods
+
+### Principal Components Analysis (PCA)
+
+[Visualization](https://stats.stackexchange.com/questions/2691/making-sense-of-principal-component-analysis-eigenvectors-eigenvalues?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)
+
+PCA is a dimension reduction method that constructs new features out of existing features in an effort to not only reduce the features in the data set, but also to remove collinearity among the features.
+
+* *Note that PCA does not* **choose** *the best features out of the existing features, it* **constructs** *new features using existing features.*
+
+* Every "Principal Component" is a **linear combination** of at least 2 (although could be, and often is, more than 2) existing features and is an **eigenvector** of the existing data matrix.
+
+* $PC_1$ (principal component 1) will be orthogonal to $PC_2$, $PC_2$ will be orthogonal to $PC_3$, etc. **Each $PC_i$ is orthogonal to all other $PC_{i'}$; this ensures that the $PC$'s aren't collinear.**
+
+Algorithm:
+
+1. Standardize your matrix (column-wise)
+2. Compute $\frac{1}{2}X^TX$
+3. The principal components are the eigenvectors of the covariance matrix
+4. The *magnitude* of the eigenvalues denotes the amount of variance captured by the corresponding eigenvector
+    * to find the percent of the variance captured by each eigenvector, divide the eigenvalue by the sum of all the eigenvalues.
+
+### Singular Value Decomposition (SVD)
+
+### t-distributed Stochastic Neighbor Embedding (t-SNE)
 
 # Code Snippets
 
