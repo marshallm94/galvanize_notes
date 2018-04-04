@@ -1022,6 +1022,8 @@ score_model(x_train, y_train, x_test, y_test, svc)
 
 ## Dimension Reduction Methods
 
+Dimension reduction methods can not only be useful for reducing the size of you data set for machine learning purposes, but also for visualization purposes (a lot easier to look at $PC_1~vs~PC_2$ than $\! \binom{p}{2} \!$ pairwise plots of the features.
+
 ### Principal Components Analysis (PCA)
 
 [Visualization](https://stats.stackexchange.com/questions/2691/making-sense-of-principal-component-analysis-eigenvectors-eigenvalues?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)
@@ -1030,7 +1032,7 @@ PCA is a dimension reduction method that constructs new features out of existing
 
 * *Note that PCA does not* **choose** *the best features out of the existing features, it* **constructs** *new features using existing features.*
 
-* Every "Principal Component" is a **linear combination** of at least 2 (although could be, and often is, more than 2) existing features and is an **eigenvector** of the existing data matrix.
+* Every "Principal Component" is a **linear combination** of at least 2 (although could be, and often is, more than 2) existing features and is an **eigenvector** of the existing covariance matrix.
 
 * $PC_1$ (principal component 1) will be orthogonal to $PC_2$, $PC_2$ will be orthogonal to $PC_3$, etc. **Each $PC_i$ is orthogonal to all other $PC_{i'}$; this ensures that the $PC$'s aren't collinear.**
 
@@ -1042,9 +1044,22 @@ Algorithm:
 4. The *magnitude* of the eigenvalues denotes the amount of variance captured by the corresponding eigenvector
     * to find the percent of the variance captured by each eigenvector, divide the eigenvalue by the sum of all the eigenvalues.
 
-### Singular Value Decomposition (SVD)
+```python
+from sklearn.decomposition import PCA
+pca = PCA(n_components=5)
+```
 
 ### t-distributed Stochastic Neighbor Embedding (t-SNE)
+
+t-SNE is similar to PCA, however *it doesn't enforce the "principal compenents" to be* **linear** *combinations of the existing features.*
+
+* t-SNE has a **Stochastic** final solution, meaning that with different initializations you will end up with different results. This is in constrast to PCA, which is **deterministic**; you will get the same results every time.
+
+* Computationally expensive compared to PCA or SVD, therefore if it might be necessary to perform PCA to get the number of features down to a reasonable number (50), and the perform t-SNE.
+
+
+
+### Singular Value Decomposition (SVD)
 
 # Code Snippets
 
