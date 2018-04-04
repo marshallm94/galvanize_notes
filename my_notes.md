@@ -1051,15 +1051,34 @@ pca = PCA(n_components=5)
 
 ### t-distributed Stochastic Neighbor Embedding (t-SNE)
 
+[Original Paper](http://jmlr.org/papers/volume9/vandermaaten08a/vandermaaten08a.pdf)
+
+[R & Python Implementation](https://www.analyticsvidhya.com/blog/2017/01/t-sne-implementation-r-python/)
+
 t-SNE is similar to PCA, however *it doesn't enforce the "principal compenents" to be* **linear** *combinations of the existing features.*
+
+The reason this is important is that, with PCA, as shown in the image below, PCA will project the data onto the vector that captures the most **global** variance in the data that is a **linear** combination of existing features. So, if we were to map the data shown in the figure to one of the (hypothetical) $PC_i$'s shown by the dotted lines, the relationship would be complete lost. However, the operative letters "N" and "E" in t-SNE stand for neighborhood embedding. This means that t-SNE seeks to map the existing data to a lower dimension by converting the similarities of data points in the high dimensional space to joint probabilities, and then showing the data in a lower dimension where these probabilities are determine the "closeness" of the data points.
+
+![](images/swiss_roll.png)
 
 * t-SNE has a **Stochastic** final solution, meaning that with different initializations you will end up with different results. This is in constrast to PCA, which is **deterministic**; you will get the same results every time.
 
 * Computationally expensive compared to PCA or SVD, therefore if it might be necessary to perform PCA to get the number of features down to a reasonable number (50), and the perform t-SNE.
 
-
+```python
+from sklearn.manifold import TSNE
+tsne = TSNE(n_components=2)
+```
 
 ### Singular Value Decomposition (SVD)
+
+SVD is widely applicable in finding *latent features* in data sets. Every matrix $M$ can be decomposed into thee parts $$M = U\Sigma V^T$$
+
+1. $U$ - The observation to axis (underlying feature) matrix, where each value represents the "association" of each observation to each axis, or the amount by which you scale the diagonal values in Sigma.
+
+2. $\Sigma$ - The singular values for each axis in the matrix, where each diagonal value is the square root of the eigenvalue whose corresponding axis is one of the eigenvectors.
+
+3. $V^T$ - The feature to axis (underlying feature) matrix, where each value represent each features "association" to each axis, or the amount by which you scale the diagonal value in Sigma.
 
 # Code Snippets
 
