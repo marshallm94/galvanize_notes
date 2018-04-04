@@ -1074,11 +1074,27 @@ tsne = TSNE(n_components=2)
 
 SVD is widely applicable in finding *latent features* in data sets. Every matrix $M$ can be decomposed into thee parts $$M = U\Sigma V^T$$
 
-1. $U$ - The observation to axis (underlying feature) matrix, where each value represents the "association" of each observation to each axis, or the amount by which you scale the diagonal values in Sigma.
+1. $U$ - The observation to axis (underlying/latent feature) matrix, where each value represents the "association" of each observation to each axis, or the amount by which you scale the diagonal values in Sigma.
+
+    * Has dimensions $N~x~L$, where $L$ is the number of latent features and $N$ is the number of observations.
 
 2. $\Sigma$ - The singular values for each axis in the matrix, where each diagonal value is the square root of the eigenvalue whose corresponding axis is one of the eigenvectors.
 
-3. $V^T$ - The feature to axis (underlying feature) matrix, where each value represent each features "association" to each axis, or the amount by which you scale the diagonal value in Sigma.
+    * This columns of this matrix can be thought of as the *latent features* or the underlying / unmeasured features that account for the variance in the matrix $M$. This will be a diagonal matrix, with values decreasing along the diagonal
+
+3. $V^T$ - The feature to axis (underlying/latent feature) matrix, where each value represent each features "association" to each axis, or the amount by which you scale the diagonal value in Sigma.
+
+    * Has dimensions $L~x~P$, where $L$ is the number of latent features and $P$ is the number of actual (measured) features.
+
+By setting some of the lower values in $\Sigma$ to 0, we are effectively removing some of the latent features. When we reconstruct the data after doing this, we should get a matrix that is quite similar to our original matrix, *even though we have reduced the "dimensions" of the matrix*.
+
+```python
+import numpy as np
+from sklearn.decomposition import TruncatedSVD
+trunc_SVD = TruncatedSVD(n_components=2)
+# or (better)
+u, sigma, vt = np.linalg.svd(df)
+```
 
 # Code Snippets
 
