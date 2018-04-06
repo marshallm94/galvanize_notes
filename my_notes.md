@@ -901,6 +901,48 @@ y_hat = knn.predict(x_test)
 
     2. For each internal node that is produced from step 1, recursively repeat step 1 at each internal node until some stopping criterion is reached.
 
+* Entropy:
+    * Measure the *diversity* in a sample.
+
+        * High entropy = high diversity in sample
+        * Low entropy = low diversity in sample (very "pure")
+        
+    * Classification: $$H(X) = - \sum_i^N p_i log_b p_i$$ where $p_i$ is the proportion of class $i$ in the sample (i.e node of interest)
+
+    * Regression: $$H(X) = - \sum_i^N \sigma_i^2 log_b \sigma_i^2$$ where $\sigma_i^2$ is the squared difference between $x_i$ and $\bar x$ withing the sample (i.e. node) of interest.
+
+```python
+def discrete_entropy(y):
+    '''
+    INPUT:
+        - y: 1d numpy array
+    OUTPUT:
+        - float
+
+    Return the entropy of the array y.
+    '''
+    counter = Counter(y)
+    total = len(y)
+    ent = 0
+    for i in counter.keys():
+        ent += counter[i]/total * np.log2(counter[i] / total)
+    return -1 * ent
+
+def continuous_entropy(y):
+    '''
+    INPUT:
+        - y: 1d numpy array
+    OUTPUT:
+        - float
+
+    Return the entropy of the array y.
+    '''
+    ent = 0
+    for x in np.arange(y.shape[0]):
+        ent += (y[x] - y.mean())**2 * np.log2((y[x] - y.mean())**2)
+    return -1 * ent
+```
+
 #### Bagging
 
 1. Create bootstrapped samples
