@@ -918,6 +918,13 @@ y_hat = knn.predict(x_test)
 
 $$G = \sum_i^K p_{mk}(1~-~p_{mk})$$ where $p_{mk}$ is the proportion of class $k$ in the $m$th node.
 
+* Information Gain:
+
+    * Note that in the below equation, $H(S)$ and $H(C_i)$ can be **either** the Entropy of the parent ($S$) and child ($C_i$) or the Gini Index of the parent ($S$) and child ($C_i$).
+
+$$IG(S, C) = H(S)~-~\sum_{C_i\epsilon C} \frac{| C_i|}{|S|}H(C_i)$$
+
+"The Information Gain of a split given the sample space and the 'children' (divisions of the sample space) of the split ($IG(S, C)$) is equal to the entropy/gini of the total sample space ($H(S)$) minus the summation over all splits (children) of the sample space of the size of the child node divided by the size of the sample space (parent node) ($\frac{|C_i|}{|S|}$) multiplied by the entropy/gini of the child node (division of sample space.)"
 
 ```python
 def discrete_entropy(y):
