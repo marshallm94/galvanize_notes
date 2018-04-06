@@ -1125,7 +1125,7 @@ plt.style.use('bmh')
 
 # Plotting
 
-def multi_class_scatter_plot(arr_col_idx_1, arr_col_idx_2, y):
+def multi_class_scatter_plot(arr_1, arr_2, y):
     import matplotlib.colors as colors
     color_list = list(colors.cnames.keys())
     classes = np.unique(y)
