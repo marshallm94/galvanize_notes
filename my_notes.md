@@ -927,6 +927,9 @@ $$IG(S, C) = H(S)~-~\sum_{C_i\epsilon C} \frac{| C_i|}{|S|}H(C_i)$$
 "The Information Gain of a split given the sample space and the 'children' (divisions of the sample space) of the split ($IG(S, C)$) is equal to the entropy/gini of the total sample space ($H(S)$) minus the summation over all splits (children) of the sample space of the size of the child node divided by the size of the sample space (parent node) ($\frac{|C_i|}{|S|}$) multiplied by the entropy/gini of the child node (division of sample space.)"
 
 ```python
+import numpy as np
+from collections import Counter
+
 def discrete_entropy(y):
     '''
     INPUT:
@@ -957,7 +960,7 @@ def continuous_entropy(y):
         ent += (y[x] - y.mean())**2 * np.log2((y[x] - y.mean())**2)
     return -1 * ent
 
-def gini(self, y):
+def gini(y):
     '''
     INPUT:
         - y: 1d numpy array
@@ -973,6 +976,33 @@ def gini(self, y):
     for i in counter.keys():
         gini += counter[i]/total * (1 - (counter[i] / total))
     return gini
+
+def information_gain(y, y1, y2, criteria='entropy'):
+    '''
+    Calculates the Information Gain from a binary split of y into y1
+    and y2.
+
+    INPUT:
+        - y: 1d numpy array
+        - y1: 1d numpy array (labels for subset 1)
+        - y2: 1d numpy array (labels for subset 2)
+    OUTPUT:
+        - float
+
+    Return the information gain of making the given split.
+    '''
+    counter = Counter(y)
+    children = [y1, y2]
+    summation_term = 0
+    if criteria == 'entropy':
+        for x, i in enumerate(counter.keys()):
+            summation_term += counter[i] / len(y) * discrete_entropy(children[x])
+        return discrete_entropy(y) - summation_term
+    elif criteria == "gini":
+        for x, i in enumerate(counter.keys()):
+            summation_term += counter[i] / len(y) * gini(children[x])
+        return gini(y) - summation_term
+
 ```
 
 #### Bagging
