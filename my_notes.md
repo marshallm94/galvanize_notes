@@ -902,14 +902,22 @@ y_hat = knn.predict(x_test)
     2. For each internal node that is produced from step 1, recursively repeat step 1 at each internal node until some stopping criterion is reached.
 
 * Entropy:
+
     * Measure the *diversity* in a sample.
 
         * High entropy = high diversity in sample
         * Low entropy = low diversity in sample (very "pure")
-        
+
     * Classification: $$H(X) = - \sum_i^N p_i log_b p_i$$ where $p_i$ is the proportion of class $i$ in the sample (i.e node of interest)
 
     * Regression: $$H(X) = - \sum_i^N \sigma_i^2 log_b \sigma_i^2$$ where $\sigma_i^2$ is the squared difference between $x_i$ and $\bar x$ withing the sample (i.e. node) of interest.
+
+* Gini Index:
+
+    * Similar to Entropy in measurement of node purity, however the Gini Index measures the probability of misclassifying a single observation if it was randomly labeled according to the distribution of the classes in the sample.
+
+$$G = \sum_i^K p_{mk}(1~-~p_{mk})$$ where $p_{mk}$ is the proportion of class $k$ in the $m$th node.
+
 
 ```python
 def discrete_entropy(y):
@@ -941,6 +949,23 @@ def continuous_entropy(y):
     for x in np.arange(y.shape[0]):
         ent += (y[x] - y.mean())**2 * np.log2((y[x] - y.mean())**2)
     return -1 * ent
+
+def gini(self, y):
+    '''
+    INPUT:
+        - y: 1d numpy array
+    OUTPUT:
+        - float
+
+    Return the gini impurity of the array y.
+    '''
+
+    counter = Counter(y)
+    total = len(y)
+    gini = 0
+    for i in counter.keys():
+        gini += counter[i]/total * (1 - (counter[i] / total))
+    return gini
 ```
 
 #### Bagging
