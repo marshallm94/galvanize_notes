@@ -1159,7 +1159,9 @@ pca = PCA(n_components=5)
 
 [R & Python Implementation](https://www.analyticsvidhya.com/blog/2017/01/t-sne-implementation-r-python/)
 
-t-SNE is similar to PCA, however *it doesn't enforce the "principal compenents" to be* **linear** *combinations of the existing features.*
+t-SNE is similar to PCA, however *it doesn't enforce the "principal components" to be* **linear** *combinations of the existing features.*
+
+**"A major problem with, linear dimensionality reduction algorithms is that they concentrate on placing dissimilar data points far apart in a lower dimension representation. But in order to represent high dimension data on low dimension, non-linear manifold, it is important that similar datapoints must be represented close together, which is not what linear dimensionality reduction algorithms do."**
 
 The reason this is important is that, with PCA, as shown in the image below, PCA will project the data onto the vector that captures the most **global** variance in the data that is a **linear** combination of existing features. So, if we were to map the data shown in the figure to one of the (hypothetical) $PC_i$'s shown by the dotted lines, the relationship would be complete lost. However, the operative letters "N" and "E" in t-SNE stand for neighborhood embedding. This means that t-SNE seeks to map the existing data to a lower dimension by converting the similarities of data points in the high dimensional space to joint probabilities, and then showing the data in a lower dimension where these probabilities are determine the "closeness" of the data points.
 
