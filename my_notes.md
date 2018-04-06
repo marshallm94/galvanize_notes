@@ -1125,6 +1125,21 @@ plt.style.use('bmh')
 
 # Plotting
 
+def multi_class_scatter_plot(arr_col_idx_1, arr_col_idx_2, y):
+    import matplotlib.colors as colors
+    color_list = list(colors.cnames.keys())
+    classes = np.unique(y)
+
+    fig, ax = plt.subplots()
+    for i in classes:
+        color = np.random.choice(color_list)
+        mask = y == i
+        ax.scatter(arr_col_idx_1[mask], arr_col_idx_2[mask], c=color, label=f"{i}")
+
+    ax.legend()
+    plt.show()
+
+
 def scatter_plot(x, y, df, xlab, ylab, title):
     fig = plt.figure(figsize=(8,6))
     ax = fig.add_subplot(111)
