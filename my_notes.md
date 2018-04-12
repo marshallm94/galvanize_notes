@@ -1237,7 +1237,19 @@ There are (broadly) two types of clustering procedures:
     2. Randomly$^1$ initialize your $K$ centroids.
     3. Calculate the distance$^2$ between every observation and each of the $K$ centroids.
     4. Assign every observation to the closest$^3$ centroid.
-    5.
+    5. Recompute the centroids as the mean of the data points assigned to that cluster.
+    6. Repeat steps 1 - 5 until convergence.
+
+
+$^1$ There are a few ways to initialize your centroids:
+
+* The simplest is to randomly pick $K$ observations and use those as your initial centroids.
+
+* You can also randomly assign each observation to one of your $K$ classes and then initialize the centroids as the mean of the observations that were assigned to that class (downside being that this could lead to the centroids being constrained, therefore only finding the local minimum and not the true minimum).
+
+* kmeans++ Initializes the first centroid randomly, and instantiates the other $K - 1$ centroids so that the spread between the centroids is maximized.
+
+$^2$ Your distance metric is usually the Euclidean distance, however cosine similarity ($\frac{a \cdot b}{||a|| \cdot ||b||}$) and Manhattan distance can also be used.
 
 2. Hierarchical Models
 
