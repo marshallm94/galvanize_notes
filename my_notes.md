@@ -744,7 +744,7 @@ To calculate the power of a t-test or *to determine the parameters needed to rea
 	2. Design an *experiment* where you are able to test whether attribute A **causes** the observed change in attribute B.
 
 
-# Machine Learning
+# Supervised Machine Learning
 
 ## Parametric Models
 
@@ -1045,7 +1045,7 @@ def information_gain(y, y1, y2, criteria='entropy'):
 
 * **General concept being that combining many weak predictors can lead to a strong overall predictor (aka Ensemble Method)**
 
-#### Support Vector Machines (SVM's)
+### Support Vector Machines (SVM's)
 
 The term SVM is generally used to describe the group of three slightly different models. All three of these models divide your data by using a $hyperplane$, which is a $p$ dimensional point/line/plane for 1, 2 and 3+ dimensions respectively.
 
@@ -1124,9 +1124,19 @@ svc = SVC()
 score_model(x_train, y_train, x_test, y_test, svc)
 ```
 
+### Neural Networks
+
+#### Recurrent Neural Networks
+
+##### Long Short Term Memory Networks (LSTM's)
+
+* Standard RNN's aren't able to look at previous information during the training phase. When the order of the data doesn't matter, this isn't that much of a problem, however when the order of the data *does* matter (time series data, words in a sentence, **any type of data where $X_{i -1}$, $X_{i - 2}$, $X_{i - 3}$ etc, will add some predictive power for $X_i$**), remembering information from the previous $Z$ observations can greatly increase the predictive power of our model. This is the benefit of Long Short Term Memory Networks (LSTM's)
+
 ## Dimension Reduction Methods
 
 Dimension reduction methods can not only be useful for reducing the size of you data set for machine learning purposes, but also for visualization purposes (a lot easier to look at $PC_1~vs~PC_2$ than $\! \binom{p}{2} \!$ pairwise plots of the features.
+
+* *Both $PCA$ and $SVD$ require your data to be scaled*
 
 ### Principal Components Analysis (PCA)
 
@@ -1167,7 +1177,7 @@ The reason this is important is that, with PCA, as shown in the image below, PCA
 
 ![](images/swiss_roll.png)
 
-* t-SNE has a **Stochastic** final solution, meaning that with different initializations you will end up with different results. This is in constrast to PCA, which is **deterministic**; you will get the same results every time.
+* t-SNE has a **Stochastic** final solution, meaning that with different initializations you will end up with different results. This is in contrast to PCA, which is **deterministic**; you will get the same results every time.
 
 * Computationally expensive compared to PCA or SVD, therefore if it might be necessary to perform PCA to get the number of features down to a reasonable number (50), and the perform t-SNE.
 
@@ -1199,8 +1209,37 @@ import numpy as np
 from sklearn.decomposition import TruncatedSVD
 trunc_SVD = TruncatedSVD(n_components=2)
 # or (better)
-u, sigma, vt = np.linalg.svd(df)
+u, sigma, vt = np.linalg.svd(df.values)
+u, sigma, vt = np.linalg.svd(X)
 ```
+
+# Natural Language Processing (NLP)
+
+Definitions:
+
+* Corpus: the collection of documents that you are working with
+*
+
+# Unsupervised Machine Learning
+
+Defined as machine learning where you don't have a response variable to predict on, you are simply trying to understand how all the over variables interact with one another and whether there are any interesting relationships between them.
+
+## Clustering
+
+There are (broadly) two types of clustering procedures:
+
+### KMeans
+
+* The goal of KMeans is to find $K$ centroids that group your data into clusters.
+
+* The process goes as follows:
+    1. Determine $K$, how many clusters you want your data to be grouped into.
+    2. Randomly$^1$ initialize your $K$ centroids.
+    3. Calculate the distance$^2$ between every observation and each of the $K$ centroids.
+    4. Assign every observation to the closest$^3$ centroid.
+    5.
+
+2. Hierarchical Models
 
 # Code Snippets
 
