@@ -1253,32 +1253,6 @@ $^1$ There are a few ways to initialize your centroids:
 
 $^2$ Your distance metric is usually the Euclidean distance, however cosine similarity ($\frac{a \cdot b}{||a|| \cdot ||b||}$) and Manhattan distance can also be used.
 
-### Hierarchical Models
-
-
-### Gaussian Mixture Models
-
-Mixture Models (which can be generalized to more than just Gaussian distributions) are a form of "soft" KMeans. Instead of definitively saying that observation $x_i$ is *definitely* from cluster $j$, we can assign a probability that observation $x_i$ is from **each** of the clusters (distributions). This is the essence of mixture models.
-
-Algorithm:
-
-1. Take initial guesses at how many distributions describe your data. For each of those distributions, you are going to initialize $\pi_c$ to be the probability that an observation $x_i$ came from distribution $c$. (Note that these probabilities will sum to 1)
-
-2. Take initial guesses for the parameters that parameterize each of your distributions (If your model is composed of three Gaussians, you will take initial guesses $\mu_1,~\sigma_1^2,~\mu_2,~\sigma_2^2,~\mu_3,~\sigma_3^2,~$)
-
-4. (For every observation) The responsibility (probability) $\hat{\gamma_i}$ that $observation_i$ is from the distribution that is parameterized by $\phi_{\hat{\theta_c}}$ is equal to the probability of that distribution $\hat{\pi_c}$ multiplied by the probability of that observation being observed within distribution $c$, $\phi_{\hat{\theta_c}}(y_i)$, divided by the summation of that observation being observed from **any** of the distributions $\sum_{c=1}^C \hat{\pi_c}\phi_{\hat{\theta_c}}$ (normalizing constant, sums to one.)
-
-
-$$\hat{\gamma}_i(\phi_{\theta_c}) = \frac{\hat{\pi_c} \phi_{\hat{\theta_c}}(y_i)} {\sum_{c=1}^C \hat{\pi_c}\phi_{\hat{\theta_c}}}$$
-
-#### Expectation Maximization (EM)
-
-EM is a generalization of Maximum Likelihood Estimation and can be used when MLE is rather complex.
-
-$$Mixture~Model:~f(x) = (1 - \pi)g_1(x) + \pi g_2(x)$$
-
-$$Gaussian~Mixture:~g_j(x) = \phi_{\theta_j}(x), ~~ \theta_j=(\mu_j, \sigma_j^2)$$
-
 ```python
 from sklearn.cluster import KMeans
 
@@ -1288,7 +1262,38 @@ km.fit(x_train, y_train)
 y_hat = km.fit(x_test)
 ```
 
-# Code Snippets
+### Hierarchical Models
+
+
+### Gaussian Mixture Models
+
+[Youtube Walkthrough](https://www.youtube.com/watch?v=qMTuMa86NzU)
+
+$$Mixture(aka~Grand)~Model:~f(x) = (1 - \pi)g_1(x) + \pi g_2(x)$$
+
+$$Gaussian~Mixture:~g_j(x) = \phi_{\theta_j}(x), ~~ \theta_j=(\mu_j, \sigma_j^2)$$
+
+Mixture Models (**which can be generalized to more than just Gaussian distributions**) are a form of "soft" KMeans. Instead of definitively saying that observation $x_i$ is *definitely* from cluster $j$, we can assign a probability that observation $x_i$ is from **each** of the clusters (distributions). This is the essence of mixture models.
+
+###### Expectation Maximization (EM)
+
+EM is a generalization of Maximum Likelihood Estimation and can be used when MLE is rather complex.
+
+Algorithm:
+
+1. Take initial guesses at how many distributions describe your data. For each of those distributions, you are going to initialize $\pi_c$ to be the probability that an observation $x_i$ came from distribution $c$. (Note that these probabilities will sum to 1) $\pi_c$ is referred to as the **mixing parameter**
+
+2. Take initial guesses for the parameters that parameterize each of your distributions (If your model is composed of three Gaussians, you will take initial guesses $\mu_1,~\sigma_1^2,~\mu_2,~\sigma_2^2,~\mu_3,~\sigma_3^2,~$)
+
+4. **Expectation Step** - (For every observation) The responsibility (probability) $\hat{\gamma_i}$ that $x_i$ is from the distribution that is parameterized by $\phi_{\hat{\theta_c}}$ is equal to the probability of that distribution $\hat{\pi_c}$ multiplied by the probability of that observation being observed within distribution $c$, $\phi_{\hat{\theta_c}}(y_i)$, divided by the summation of that observation being observed from **any** of the distributions $\sum_{c=1}^C \hat{\pi_c}\phi_{\hat{\theta_c}}$ (normalizing constant, sums to one.)
+
+$$\hat{\gamma}_i(\phi_{\theta_c}) = \frac{\hat{\pi_c} \phi_{\hat{\theta_c}}(y_i)} {\sum_{c=1}^C \hat{\pi_c}\phi_{\hat{\theta_c}}}$$
+
+5. **Maximization Step** - The responsibilities calculated in the expectation step are then used to update the parameters $\hat{\theta_c}$ for each distribution in your model (equations can take various forms depending on the parameters that define the distributions you are using). In addition to updating $\hat{\theta_c}$, you update $\hat{\pi_c}$, the probability/mixing parameters for distibution $c$.
+
+6. Iterate over steps 3 and 5 until convergence.
+
+# General Code Snippets
 
 ```python
 
@@ -1326,7 +1331,7 @@ def multi_class_scatter_plot(arr_1, arr_2, y):
     for i in classes:
         color = np.random.choice(color_list)
         mask = y == i
-        ax.scatter(arr_col_idx_1[mask], arr_col_idx_2[mask], c=color, label=f"{i}")
+        ax.scatter(arr_1[mask], arr_2[mask], c=color, label=f"{i}")
 
     ax.legend()
     plt.show()
