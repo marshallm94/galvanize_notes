@@ -1218,7 +1218,7 @@ u, sigma, vt = np.linalg.svd(X)
 Definitions:
 
 * Corpus: the collection of documents that you are working with
-*
+
 
 # Unsupervised Machine Learning
 
@@ -1231,6 +1231,8 @@ There are (broadly) two types of clustering procedures:
 ### KMeans
 
 * The goal of KMeans is to find $K$ centroids that group your data into clusters.
+
+* *Note that the analyst has to explicitly determine the number of clusters $K$ there should be ("injecting" your bias into the data)*
 
 * The process goes as follows:
     1. Determine $K$, how many clusters you want your data to be grouped into.
@@ -1251,7 +1253,40 @@ $^1$ There are a few ways to initialize your centroids:
 
 $^2$ Your distance metric is usually the Euclidean distance, however cosine similarity ($\frac{a \cdot b}{||a|| \cdot ||b||}$) and Manhattan distance can also be used.
 
-2. Hierarchical Models
+### Hierarchical Models
+
+
+### Gaussian Mixture Models
+
+Mixture Models (which can be generalized to more than just Gaussian distributions) are a form of "soft" KMeans. Instead of definitively saying that observation $x_i$ is *definitely* from cluster $j$, we can assign a probability that observation $x_i$ is from **each** of the clusters (distributions). This is the essence of mixture models.
+
+Algorithm:
+
+1. Take initial guesses at how many distributions describe your data. For each of those distributions, you are going to initialize $\pi_c$ to be the probability that an observation $x_i$ came from distribution $c$. (Note that these probabilities will sum to 1)
+
+2. Take initial guesses for the parameters that parameterize each of your distributions (If your model is composed of three Gaussians, you will take initial guesses $\mu_1,~\sigma_1^2,~\mu_2,~\sigma_2^2,~\mu_3,~\sigma_3^2,~$)
+
+4. (For every observation) The responsibility (probability) $\hat{\gamma_i}$ that $observation_i$ is from the distribution that is parameterized by $\phi_{\hat{\theta_c}}$ is equal to the probability of that distribution $\hat{\pi_c}$ multiplied by the probability of that observation being observed within distribution $c$, $\phi_{\hat{\theta_c}}(y_i)$, divided by the summation of that observation being observed from **any** of the distributions $\sum_{c=1}^C \hat{\pi_c}\phi_{\hat{\theta_c}}$ (normalizing constant, sums to one.)
+
+
+$$\hat{\gamma}_i(\phi_{\theta_c}) = \frac{\hat{\pi_c} \phi_{\hat{\theta_c}}(y_i)} {\sum_{c=1}^C \hat{\pi_c}\phi_{\hat{\theta_c}}}$$
+
+#### Expectation Maximization (EM)
+
+EM is a generalization of Maximum Likelihood Estimation and can be used when MLE is rather complex.
+
+$$Mixture~Model:~f(x) = (1 - \pi)g_1(x) + \pi g_2(x)$$
+
+$$Gaussian~Mixture:~g_j(x) = \phi_{\theta_j}(x), ~~ \theta_j=(\mu_j, \sigma_j^2)$$
+
+```python
+from sklearn.cluster import KMeans
+
+# 3 centroids
+km = KMeans(3)
+km.fit(x_train, y_train)
+y_hat = km.fit(x_test)
+```
 
 # Code Snippets
 
