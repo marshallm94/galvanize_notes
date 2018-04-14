@@ -1235,10 +1235,46 @@ u, sigma, vt = np.linalg.svd(X)
 
 # Natural Language Processing (NLP)
 
+Fun fact: For some form of AI to pass the *Turing Test*, a human evaluator must speak to the AI, and while not being able to see the AI, be unable to distinguish it from a human.
+
 Definitions:
 
 * Corpus: the collection of documents that you are working with
 
+* Stop-words: Words so common in any language that they are not going to help differentiate between documents
+
+* Tokens: The set of non stop words that define a document (must be stemmed / lemmatized, meaning brought down to their root form i.e. hiking --> hike & hiked --> hike)
+
+* n-grams: sequence of n words
+
+**One** of the many ways to approach a NLP project (when classifying/clustering documents in a corpus is the goal) is as follows:
+
+1. lowercase all your text
+
+2. Strip out miscellaneous spacing and punctuation
+
+3. Remove stop words
+
+4. Stem/Lemmatize the remaining words
+
+5. Convert words to numbers using term-frequency ($tf$) and an inverse document frequency matrix ($idf$)
+
+    * Create a matrix where the observation are the documents in your corpus and the attributes are the tokens in the entire corpus. Start by finding counts of **all** words in corpus in each document (will be a sparse matrix).
+
+    * To normalize word-counts for documents of different lengths, divide all word-counts by the L2 norm, which will give you the term frequency $tf$ $$tf(t,d) = \frac{f_{t,d}}{\sqrt{\sum \left( f_{i,d} \right)^2}}$$
+
+    which can be read as, "The term frequency of term *t* in document *d* $tf(t,d)$ is equal to the count of term *t* in document *d* $f_{t,d}$ divided by the square root of the sum of the squares of the word-counts across all words in the document. $\sqrt{\sum \left( f_{i,d} \right)^2}$"
+
+    * Calculate the inverse document frequency *idf* by first finding the document frequency for each term $$df = \frac{| docs~containg~t|}{|docs|}~where~t = term$$ then taking the log of of the inverse with a 1 in the denominator gives the inverse document frequency $$idf(t, D) = \log\left( \frac{|docs|}{|1 + docs~containing~t|} \right)$$
+
+    * Once this is calculated, you can obtain the $tf-idf$ by multiplying the term frequency by the idf.
+
+6. Train / cluster your data to determine what documents in your corpus are similar.
+
+```python
+import nltk
+import spaCy
+```
 
 # Unsupervised Machine Learning
 
