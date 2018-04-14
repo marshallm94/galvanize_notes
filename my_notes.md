@@ -385,7 +385,9 @@ $$P(Class_k|evidence) = \frac{P(evidence|Class_k)P(Class_k)}{P(evidence)}$$
 
  $$log\left( P(Class_k|evidence) \right) = log\left( P(Class_k) \right) + \sum_{j=1}^P log\left( P(X_{i,j}|Class_k) \right)$$
 
-
+```python
+from sklearn import naive_bayes
+```
 
 ## Estimation
 
