@@ -367,6 +367,26 @@ where:
 
 When you are performing Bayes Theorem, everytime you calculate it you update the prior to be equal to the posterior of the last iteration.
 
+### Naive Bayes
+
+The fundamental difference between Naive Bayes and "Regular" Bayes is that Naive Bayes makes strong ("naive ") assumption that the variables in a dataset are *independent*.
+
+What this looks like in practice is that instead of the traditional Bayes Theorem from above, which when framed in the context of machine learning is
+
+$$P(Class_k|evidence) = \frac{P(evidence|Class_k)P(Class_k)}{P(evidence)}$$
+
+**Naive Bayes transforms this so that the likelihood $P(evidence|Class_k)$ can be propogated *across all the the feature values*.** This transforms the above equation to be
+
+ $$P(Class_k|evidence) = \frac{P(X_{[i, 0]}|Class_k)P(X_{[i, 1]}|Class_k)P(X_{[i, 2]}|Class_k)P(X_{[i, p]}|Class_k)P(Class_k)}{P(evidence)}$$
+
+ The naivete of this equation is assuming that $P(X_{i,j}|Class_k)$ is independent of $P(X_{i,j'}|Class_k)$. Despite this, Naive Bayes usually contends with more complex methods in classification problems.
+
+ One of the potential problems with this approach is that, if one of the $P(X_{i,j}|Class_k)$ has never been observed in your dataset before, $P(X_{i,j}|Class_k) = 0$, thus making the entire numerator zero. **Laplace Smoothing** is a simple way to account for this, by adding 1 to both the numerator and the denominator. In addition to this, to prevent underflow issues during computation, take the log of both sides, and since our denominator becomes a constant, we can remove it from the calculation. After all this is performed, the Naive Bayes classifier becomes
+
+ $$log\left( P(Class_k|evidence) \right) = log\left( P(Class_k) \right) + \sum_{j=1}^P log\left( P(X_{i,j}|Class_k) \right)$$
+
+
+
 ## Estimation
 
 Broadly speaking, you can estimate using a parametric or non-parametric approach, each approach having different methods, each method having different benefits and consequences:
@@ -507,7 +527,7 @@ Example: You want to test whether the mean death rate due to drunk-driving accid
 
 #### 1 Sample T-tests
 
-Used to test if the observed mean equals a hypothesized mean. **Assumes data are independant and normally distributed**. Determines if there is statistically significant evidence that the sample mean is different than the population mean, given the assumptions.
+Used to test if the observed mean equals a hypothesized mean. **Assumes data are independent and normally distributed**. Determines if there is statistically significant evidence that the sample mean is different than the population mean, given the assumptions.
 
 	[1]: scipy.stats.ttest_1samp(a, popmean)
 
@@ -1293,6 +1313,8 @@ $$\hat{\gamma}_i(\phi_{\theta_c}) = \frac{\hat{\pi_c} \phi_{\hat{\theta_c}}(y_i)
 
 6. Iterate over steps 3 and 5 until convergence.
 
+
+
 # General Code Snippets
 
 ```python
@@ -1424,4 +1446,31 @@ def plot_roc(X, y, clf_class, **kwargs):
     plt.title('Receiver operating characteristic')
     plt.legend(loc="lower right")
     plt.show()
+
+def count_nans(df, verbose=True):
+    """
+    Calculates NaN percentages per column in a pandas DataFrame.
+
+    Parameters:
+        df: (Pandas DataFrame)
+        verbose: (Boolean) Prints column names and NaN percentage if True
+
+    Output:
+        col_nans: List containing tuples of column names and percentage NaN for that column.
+    """
+    col_nans = []
+    for col in df.columns:
+        percent_nan = pd.isnull(df[col]).sum()/len(pd.isnull(df[col]))
+        col_nans.append((col, percent_nan))
+        if verbose:
+            print("{} | {:.2f}% NaN".format(col, percent_nan*100))
+
+    return col_nans
+
+def normalize(df):
+    for col in df.select_dtypes(exclude=['object']).columns:
+        new_name = col + "_scaled"
+        df[new_name] = (df[col] - df[col].values.mean()) / np.sqrt(df[col].values.var())
+    return df
+
 ```
