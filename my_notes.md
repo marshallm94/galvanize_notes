@@ -1235,10 +1235,7 @@ The architecture of the output layer of a MLP will depend on whether the target 
 
         * example: If the output layer has 10 nodes, then their are 10 possible classes. When an observation passes through the Neural Network, each of the nodes in the output layer will produce an output. The node with the highest output corresponds to the class with the highest probability for that observation.
 
-
-![](images/mlp.jpg)
-
-
+![](images/mlp.png)
 
 #### Recurrent Neural Networks
 
