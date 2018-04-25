@@ -1168,11 +1168,28 @@ The first layer, called the **Input Layer**, will always have as many nodes/neur
 
 * All nodes within a hidden layer must have the same activation function, but activation functions can vary from hidden layer to hidden layer
 
+<center> <b> Abstract </b> </center>
+
+**Each** node in a hidden layer has a vector of weights which has as many elements as there are nodes in the previous layer in the network. This vector of weights is used to calculate a *weighted sum* (dot product, $\sum w_i x_i$) using the outputs of the nodes of the previous layer and the weights associated with a node in the current layer.   
+
 <center> <b> Example Specific </b> </center>
 
-In the example picture shown below,
+In the example picture shown below, the first hidden layer has three nodes, each connected to all of the nodes in the input layer (origin of the word "Dense" in Dense Neural Network).
 
-* ###### Abstract
+The first node in the first hidden layer has red lines connecting it to each of the nodes in the input layer. Each of these red lines symbolizes a weight being multiplied by the value that is in the connected input layer node.
+
+* example:
+
+    * The first red line is the value that is in input layer node $X_1$, (call that *specific* value $x_1$), being multiplied by the first weight, $w_1$, in the weight vector associated with the first node in the first input layer
+
+    * The second red line is the value that is in input layer node $X_2$, (call that *specific* value $x_2$), being multiplied by the second weight, $w_2$, in the weight vector associated with the first node in the first input layer
+
+    * This process continues for all the red lines connecting the first node in hidden layer one to all the nodes in the input layer.
+
+    * All of these values ($x_i \cdot w_i$ for each red line) are then added together to make **one** number, which is then passed into the activation function of the first node in hidden layer 1.
+
+    The process above is repeated for **each** of the nodes in hidden layer 1, where each node has a separate vector of weights, denoted by a different color of lines.
+
 
 ![](images/mlp.jpg)
 
@@ -1180,7 +1197,7 @@ In the example picture shown below,
 
 ##### Long Short Term Memory Networks (LSTM's)
 
-* Standard RNN's aren't able to look at previous information during the training phase. When the order of the data doesn't matter, this isn't that much of a problem, however when the order of the data *does* matter (time series data, words in a sentence, **any type of data where $X_{i -1}$, $X_{i - 2}$, $X_{i - 3}$ etc, will add some predictive power for $X_i$**), remembering information from the previous $Z$ observations can greatly increase the predictive power of our model. This is the benefit of Long Short Term Memory Networks (LSTM's)
+* Standard RNN's aren't able to look at previous information during the training phase. When the order of the data doesn't matter, this isn't that much of a problem, however when the order of the data *does* matter (time series data, words in a sentence, **any type of data where $X_{i - 1}$, $X_{i - 2}$, $X_{i - 3}$ etc, will add some predictive power for $X_i$**), remembering information from the previous $Z$ observations can greatly increase the predictive power of our model. This is the benefit of Long Short Term Memory Networks (LSTM's)
 
 ## Dimension Reduction Methods
 
