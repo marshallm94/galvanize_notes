@@ -1148,6 +1148,34 @@ score_model(x_train, y_train, x_test, y_test, svc)
 
 ### Neural Networks
 
+#### Multi-Layer Perceptron (MLP)
+
+MLP's are the "simplest" of all Neural Networks, and are sometimes simply called *Dense* Networks/Layers when referred to from more advanced models.
+
+##### General Architecture
+
+*see image below*
+
+###### Input Layer
+
+The first layer, called the **Input Layer**, will always have as many nodes/neurons as their are attributes in your data set and is the start of the *feed-forward* process of a Neural Network. The nodes in this layers don't perform any operations on the values that are fed to them; the simply take the values of each attribute for one observation.
+
+* example: If you were working with a data set that contained height, weight and shoe size of a number of people, you would have 3 nodes in your input layer; one for height, one for weight and one for shoe size.
+
+###### Hidden Layers
+
+* **There can be any number of hidden layers in a Neural Network, and each hidden layer can have any number of nodes/neurons (thus their power).**
+
+* All nodes within a hidden layer must have the same activation function, but activation functions can vary from hidden layer to hidden layer
+
+<center> <b> Example Specific </b> </center>
+
+In the example picture shown below,
+
+* ###### Abstract
+
+![](images/mlp.jpg)
+
 #### Recurrent Neural Networks
 
 ##### Long Short Term Memory Networks (LSTM's)
