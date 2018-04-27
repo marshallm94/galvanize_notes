@@ -1440,6 +1440,27 @@ $$\hat{\gamma}_i(\phi_{\theta_c}) = \frac{\hat{\pi_c} \phi_{\hat{\theta_c}}(y_i)
 
 6. Iterate over steps 3 and 5 until convergence.
 
+# Big Data
+
+## AWS
+
+### Launching a Virtual Machine (VM)
+
+Connecting to a VM allows you to make use of more computing power than your local machine may have, making working with large data a lot easier to deal with.
+
+[Step by step Walkthrough](https://aws.amazon.com/getting-started/tutorials/launch-a-virtual-machine/)
+
+Process:
+
+1. Navigate to the [AWS EC2 Console](https://us-west-2.console.aws.amazon.com/ec2/v2/home?region=us-west-2#Home:) and click Launch Instance
+
+    * After you click Launch Instance, you will be able to choose the AMI (Amazon Machine Image aka server template) best suited to the task you would like to accomplish.
+    * You will then be able to configure the instance type, options including memory, storage, CPU's, etc.
+    * You will either have to use an existing key pair (analogy: Cloud VM is your house with a lock, your SSH key is the key to enter the house and use everything inside) or create a new one (when creating new, move to `~/.ssh/`)
+    * click Launch Instances
+
+2. Once your instance is launched
+
 
 
 # General Code Snippets
