@@ -1455,11 +1455,34 @@ Process:
 1. Navigate to the [AWS EC2 Console](https://us-west-2.console.aws.amazon.com/ec2/v2/home?region=us-west-2#Home:) and click Launch Instance
 
     * After you click Launch Instance, you will be able to choose the AMI (Amazon Machine Image aka server template) best suited to the task you would like to accomplish.
+
     * You will then be able to configure the instance type, options including memory, storage, CPU's, etc.
+
     * You will either have to use an existing key pair (analogy: Cloud VM is your house with a lock, your SSH key is the key to enter the house and use everything inside) or create a new one (when creating new, move to `~/.ssh/`)
+    s
     * click Launch Instances
 
-2. Once your instance is launched
+2. Once your instance is launched, click View Instances and copy the Public IP address
+
+3. Connect your local machine to your VM:
+
+    * from the home directory `~/` (on your local machine), type:
+
+        `$ ssh -i ~/.ssh/<keypair_name_used_to_launch_instance> ec2-user@<public_ip_address_you_copied>`
+
+    * When asked whether you would like to continue, type `yes` and hit Return
+
+    * you will know you have successfully connected to your VM when something similar to the following appears in your command line:
+
+        `[ec2-user@ip-172-31-30-75 ~]$`
+
+4. Terminate your Instance
+
+    * **Note that it is safest to terminate your instance from your EC2 Console**; doing so will automatically disconnect your local machine from the instance whereas disconnecting from your local machine will not actually terminate the instance, it will simply disconnect your machine and the instance could keep running (charging your money for doing so)
+
+    * From your EC2 Console, click Actions, then Instance State, and click Terminate (NOT the same as stop)
+
+    * When asked to confirm, click *Yes, Terminate*
 
 
 
