@@ -1444,6 +1444,8 @@ $$\hat{\gamma}_i(\phi_{\theta_c}) = \frac{\hat{\pi_c} \phi_{\hat{\theta_c}}(y_i)
 
 ## AWS
 
+[Short Tutorials](https://aws.amazon.com/start-now/)
+
 ### Launching a Virtual Machine (VM)
 
 Connecting to a VM allows you to make use of more computing power than your local machine may have, making working with large data a lot easier to deal with.
@@ -1484,7 +1486,45 @@ Process:
 
     * When asked to confirm, click *Yes, Terminate*
 
+### Storing/Retrieving Files with Amazon Simple Storage Solution (S3)
 
+Process (pretty self-explanatory):
+
+1. Navigate to your [S3 Console](https://s3.console.aws.amazon.com/s3/home?region=us-west-2)
+
+2. Click Create Bucket (location where files/objects will be stored)
+
+    * You can configure multiple aspects of your bucket such as permissions, versioning, etc (defaults usually sufficient). To accept defaults, click Next
+
+    * Click Create Bucket when prompted
+
+3. To upload a file to your S3 Bucket:
+
+    * From the S3 Console, click the bucket in which you would like to store your file.
+
+    * Click Upload and select files
+
+        * You can configure permissions, encryption, etc here, once again defaults are usually sufficient (click Next to accept defaults).
+
+4. To Download a file from your S3 Bucket to your local machine:
+
+    * From the S3 Console, click the bucket from which you would like to download a file.
+
+    * Select the checkbox next to the file you would like to download and a dialogue box will pop up; click Download.
+
+5. **Delete Files and Buckets when they aren't needed**
+
+    * Same as VM, you will be charged if they are left up.
+
+    * To delete a file/data object within a Bucket:
+
+        * Select the checkbox next to the object and click More --> Delete
+
+        * Confirm Deletion
+
+    * To delete a Bucket:
+
+        * click to the right of the bucket name you would like to delete (selects and highlights the bucket), and click Delete Bucket
 
 # General Code Snippets
 
