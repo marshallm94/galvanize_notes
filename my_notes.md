@@ -1148,15 +1148,21 @@ score_model(x_train, y_train, x_test, y_test, svc)
 
 ### Neural Networks
 
+[Tuning Neural Networks Post](https://machinelearningmastery.com/grid-search-hyperparameters-deep-learning-models-python-keras/#comment-436150)
+
+For each type of NN, an image is provided and repeated throughout the explanation. Although it is the same image, this is done in order to prevent unnecessary scrolling.
+
 #### Multi-Layer Perceptron (MLP)
 
 MLP's are the "simplest" of all Neural Networks, and are sometimes simply called *Dense* Networks/Layers when referred to from more advanced models.
 
 ##### General Architecture
 
-*see image below*
+*see image at end of MLP section*
 
 ###### Input Layer
+
+![](images/mlp.png)
 
 The first layer, called the **Input Layer**, will always have as many nodes/neurons as their are attributes in your data set and is the start of the *feed-forward* process of a Neural Network. The nodes in this layers don't perform any operations on the values that are fed to them; the simply take the values of each attribute for one observation.
 
@@ -1176,6 +1182,8 @@ The first layer, called the **Input Layer**, will always have as many nodes/neur
     * Softmax
 
 <center> <b> Abstract </b> </center>
+
+![](images/mlp.png)
 
 **Each** node in a hidden layer has a vector of weights which has as many elements as there are nodes in the previous layer in the network. This vector of weights is used to calculate a *weighted sum* (dot product, $\sum w_i x_i$) using the outputs of the nodes of the previous layer and the weights associated with a node in the current layer. This **single number** (dot product) is used as the input for the activation function of the node in the hidden layer, which transforms the input in some way (activation function dependent) to create a **single** output number. This output is then used in the next hidden layer (or output layer).     
 
@@ -1200,6 +1208,8 @@ The first node in the first hidden layer has red lines connecting it to each of 
     The process above is repeated for **each** of the nodes in hidden layer 1, where each node has a separate vector of weights, denoted by a different color of lines.
 
     * *Note that these vectors of weights are combined to create a weight matrix in practice*
+
+![](images/mlp.png)
 
 <center> <b> <small> Hidden Layer 2 </small> </b> </center>
 
@@ -1237,11 +1247,29 @@ The architecture of the output layer of a MLP will depend on whether the target 
 
 ![](images/mlp.png)
 
-#### Recurrent Neural Networks
+#### Recurrent Neural Networks (RNN's)
 
-##### Long Short Term Memory Networks (LSTM's)
+Standard NN's aren't able to look at previous information during the training phase. When the order of the data doesn't matter, this isn't that much of a problem, however when the order of the data *does* matter (time series data, words in a sentence, **any type of data where $X_{i - 1}$, $X_{i - 2}$, $X_{i - 3}$ etc, will add some predictive power for $X_i$**), remembering information from the previous $Z$ observations can greatly increase the predictive power of our model. This is the benefit of Recurrent Neural Networks.
 
-* Standard RNN's aren't able to look at previous information during the training phase. When the order of the data doesn't matter, this isn't that much of a problem, however when the order of the data *does* matter (time series data, words in a sentence, **any type of data where $X_{i - 1}$, $X_{i - 2}$, $X_{i - 3}$ etc, will add some predictive power for $X_i$**), remembering information from the previous $Z$ observations can greatly increase the predictive power of our model. This is the benefit of Long Short Term Memory Networks (LSTM's)
+[Explanatory Video](https://www.youtube.com/watch?v=WCUNPb-5EYI&t=924s)
+
+[Explanatory Article](https://deeplearning4j.org/lstm.html)
+
+##### General Architecture
+
+###### Input Layer
+
+Similar to MLP's, the input layer of an RNN has $p$ neurons/nodes, where $p$ is the number of attributes of your data set.
+
+###### Hidden Layers
+
+As stated previously, **what separates RNN's from MLP's is that they are able to use information from the previous pass through the network as input for the current pass through the network**.
+
+The Recurrent layers in a 
+
+#### Long Short Term Memory Networks (LSTM's)
+
+*subset of RNN's*
 
 ## Dimension Reduction Methods
 
