@@ -1263,9 +1263,11 @@ Similar to MLP's, the input layer of an RNN has $p$ neurons/nodes, where $p$ is 
 
 ###### Hidden Layers
 
-As stated previously, **what separates RNN's from MLP's is that they are able to use information from the previous pass through the network as input for the current pass through the network**.
+As stated previously, **what separates RNN's from MLP's is that they are able to use information from the previous pass (time-step, step-in-sequence, etc.) through the network as input for the current pass (time-step, step-in-sequence, etc.) through the network**.
 
-The Recurrent layers in a 
+Hidden layers in a RNN are composed of Recurrent neurons/nodes. These neurons accept input from the data set at the current pass (time-step, step-in-sequence, etc.) through the network, *in addition to the output of the recurrent neurons/nodes from the previous pass (time-step, step-in-sequence, etc.) through the network.*
+
+This implies that every recurrent neuron/node in a recurrent layer has two vectors of weights; one vector for the data coming from the data set at the current pass (time-step, step-in-sequence, etc.) through the network, and the other vector for the output of the recurrent neurons from the **same** recurrent layer **at the previous pass (time-step, step-in-sequence, etc.)  through the network**.
 
 #### Long Short Term Memory Networks (LSTM's)
 
