@@ -1257,6 +1257,10 @@ Standard NN's aren't able to look at previous information during the training ph
 
 ##### General Architecture
 
+In the picture below, the RNN as one recurrent layer.
+
+![](images/rnn.png)
+
 ###### Input Layer
 
 Similar to MLP's, the input layer of an RNN has $p$ neurons/nodes, where $p$ is the number of attributes of your data set.
@@ -1265,9 +1269,41 @@ Similar to MLP's, the input layer of an RNN has $p$ neurons/nodes, where $p$ is 
 
 As stated previously, **what separates RNN's from MLP's is that they are able to use information from the previous pass (time-step, step-in-sequence, etc.) through the network as input for the current pass (time-step, step-in-sequence, etc.) through the network**.
 
-Hidden layers in a RNN are composed of Recurrent neurons/nodes. These neurons accept input from the data set at the current pass (time-step, step-in-sequence, etc.) through the network, *in addition to the output of the recurrent neurons/nodes from the previous pass (time-step, step-in-sequence, etc.) through the network.*
+Hidden layers in a RNN are composed of recurrent neurons/nodes. These neurons accept input from the data set at the current pass (time-step, step-in-sequence, etc.) through the network, *in addition to the output of the recurrent neurons/nodes from the previous pass (time-step, step-in-sequence, etc.) through the network.*
 
-This implies that every recurrent neuron/node in a recurrent layer has two vectors of weights; one vector for the data coming from the data set at the current pass (time-step, step-in-sequence, etc.) through the network, and the other vector for the output of the recurrent neurons from the **same** recurrent layer **at the previous pass (time-step, step-in-sequence, etc.)  through the network**.
+This implies that every recurrent neuron/node in a recurrent layer has two vectors of weights; one vector for the data coming from the data set at the current pass (time-step, step-in-sequence, etc.) through the network, and the other vector for the output of the recurrent neurons from the **same** recurrent layer **at the previous pass (time-step, step-in-sequence, etc.) through the network**.
+
+$$upper~right~of~picture$$
+
+$$
+H_t = \phi(W_t \cdot x_t ~+~ P_{t~-~1} \cdot z_{t~-~1} ~+~ b)
+$$
+
+* $H_t$ - *The output of a recurrent neuron/node at time-step $t$*
+* $\phi$ - *The activation for the recurrent neuron/node*
+* $W_t$ - *Vector of weights for data from data set at current pass (time-step, step-in-sequence, etc.)*
+* $x_t$ - *The vector of values from the input layer or previous layer*
+* $P_{t~-~1}$ - **Vector of weights used for output of recurrent neurons/nodes at previous pass (time-step, step-in-sequence, etc.) through network**
+* $z_{t~-~1}$ - **Output of recurrent neurons/nodes at previous pass (time-step, step-in-sequence, etc.) through network**
+* $b$ - Bias (usually a scaler)   
+
+Note that since the output of a recurrent neuron/node at time-step $t$ is a function of the output of the neurons/nodes at time-step $t-1$ (which in turn are a function of the output of the neurons/nodes at time-step $t-2$, and so on), **a recurrent neuron/node at time-step $t$ has traces of all the previous passes through the network for as long as memory persists**.
+
+![](images/rnn.png)
+
+If you "un-roll" a RNN over passes (time-steps, steps-in-sequence, etc.) through the network, you get a diagram similar to the one at the bottom of the picture above. As you can see, the neurons/nodes at time-step 1 take as input the output of the recurrent neurons/nodes from the previous time-step in addtion to data from the data set at the current time-step.
+
+
+
+###### Output Layer
+
+Output layers of RNN's work in the same way as those of MLP's:
+
+* In a **classification** setting, the number of neurons in the output layer will be equal to the number of possible classes $k$ (unless the classification is binary, in which case there will only be one neuron/node, and the output will be 0 or 1)
+
+* In a **regression** setting, there will be one neuron/node in the output layer and the activation function will be linear in some manner.
+
+* In both cases, the neuron(s) in the output layer each have a
 
 #### Long Short Term Memory Networks (LSTM's)
 
@@ -1713,5 +1749,4 @@ def normalize(df):
         new_name = col + "_scaled"
         df[new_name] = (df[col] - df[col].values.mean()) / np.sqrt(df[col].values.var())
     return df
-
 ```
