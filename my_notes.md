@@ -73,30 +73,31 @@ One of the goals behind TDD is that before you even write your code to accomplis
 2. In addition, there will be times when you are writing the test for your code and you realize that what you were going to have your code do does not serve your end goal, and you stop the process of trying to solve a meaningless problem before it starts in a sense.
 
 Example:
+```python
+import unittest
+from <directory_name>.<script_name> import <class_that_has_code_to_be_tested>
 
-    import unittest
-    from <directory_name>.<script_name> import <class_that_has_code_to_be_tested>
+class TestStringMethods(unittest.TestCase):
 
-    class TestStringMethods(unittest.TestCase):
+def setUp(self):
+    """
+    setup is used when significant setup is required
+    this is not always needed.
+    """
+    self.a = answer_1
+    self.b = answer_2
 
-    def setUp(self):
-        """
-        setup is used when significant setup is required
-        this is not always needed.
-        """
-        self.a = answer_1
-        self.b = answer_2
+def test<method_name>(self):
+    """
+    test multiplication functionality
+    """
+    test_result = <class_that_has_code_to_be_tested>.<method_to_be_tested(self.a, self.b)
+    expected_result = self.a * self.b
+    self.assertEqual(test_result, expected_result)
 
-    def test<method_name>(self):
-        """
-        test multiplication functionality
-        """
-        test_result = <class_that_has_code_to_be_tested>.<method_to_be_tested(self.a, self.b)
-        expected_result = self.a * self.b
-        self.assertEqual(test_result, expected_result)
-
-    if __name__ == '__main__':
-        unittest.main()
+if __name__ == '__main__':
+    unittest.main()
+```
 
 Explanation: What the above code is doing, when it is run from the terminal using,
 
@@ -1293,8 +1294,6 @@ Note that since the output of a recurrent neuron/node at time-step $t$ is a func
 
 If you "un-roll" a RNN over passes (time-steps, steps-in-sequence, etc.) through the network, you get a diagram similar to the one at the bottom of the picture above. As you can see, the neurons/nodes at time-step 1 take as input the output of the recurrent neurons/nodes from the previous time-step in addtion to data from the data set at the current time-step.
 
-
-
 ###### Output Layer
 
 Output layers of RNN's work in the same way as those of MLP's:
@@ -1306,6 +1305,8 @@ Output layers of RNN's work in the same way as those of MLP's:
 * In both cases, the neuron(s) in the output layer each have a
 
 #### Long Short Term Memory Networks (LSTM's)
+
+[Explanatory Article](http://colah.github.io/posts/2015-08-Understanding-LSTMs/)
 
 *subset of RNN's*
 
@@ -1475,8 +1476,9 @@ km.fit(x_train, y_train)
 y_hat = km.fit(x_test)
 ```
 
-### Hierarchical Models
+### Hierarchical Clustering
 
+<pass>
 
 ### Gaussian Mixture Models
 
@@ -1508,6 +1510,12 @@ $$\hat{\gamma}_i(\phi_{\theta_c}) = \frac{\hat{\pi_c} \phi_{\hat{\theta_c}}(y_i)
 
 # Big Data
 
+At some point the quantity of data that you are going to be working with will be too large to work with on a single machine and you will have to make use of multiple machines. Big Data frameworks are built for working with large (100's of Terabytes or more); storing them and analyzing them.
+
+## Apache Spark
+
+A tool for managing and coordinating the execution of tasks on data across a cluster of machines acting as one.
+
 ## AWS
 
 [Short Tutorials](https://aws.amazon.com/start-now/)
@@ -1527,7 +1535,7 @@ Process:
     * You will then be able to configure the instance type, options including memory, storage, CPU's, etc.
 
     * You will either have to use an existing key pair (analogy: Cloud VM is your house with a lock, your SSH key is the key to enter the house and use everything inside) or create a new one (when creating new, move to `~/.ssh/`)
-    s
+
     * click Launch Instances
 
 2. Once your instance is launched, click View Instances and copy the Public IP address
@@ -1591,6 +1599,63 @@ Process (pretty self-explanatory):
     * To delete a Bucket:
 
         * click to the right of the bucket name you would like to delete (selects and highlights the bucket), and click Delete Bucket
+
+### AWS EMR (Elastic Map Reduce)
+
+"Amazon EMR provides a managed Hadoop framework that makes it easy, fast, and cost-effective to process vast amounts of data across dynamically scalable Amazon EC2 instances. You can also run other popular distributed frameworks such as Apache Spark, HBase, Presto, and Flink in Amazon EMR, and interact with data in other AWS data stores such as Amazon S3 and Amazon DynamoDB"
+
+#### Running Spark using EMR
+
+* *Note that the following process assumes that you have already created a EC2 Key Pair for your Spark Cluster*
+
+    * After you move your key pair file (<whatever_you_called_it>.pem) to your `~/.ssh/` directory, you will need to change the permissions of that file. To do so, run the following from the command line
+
+        `$ chmod 400 ~/.ssh/<whatever_you_called_it>.pem`
+
+    * **If you do not perform the above step, you will get an error when you try to connect to your cluster that looks like the following**:
+
+    `@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@`
+    `@         WARNING: UNPROTECTED PRIVATE KEY FILE!          @`
+    `@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@`
+    `Permissions 0644 for '/path/to/you/pem/file' are too open.`
+
+To connect using the AWS GUI:
+
+1. Go to the [AWS EMR Console](https://console.aws.amazon.com/elasticmapreduce/home?region=us-east-1)
+2. Enter the following as settings:
+
+| *Setting* | *Value* |
+| ------- | ----- |
+| Cluster name (*) | <name_for_your_cluster> |
+| s3 Folder | <bucket_name_for_your_cluster> |
+| Launch Mode | Cluster |
+| Vendor | Amazon |
+| Release | emr-5.3.1 |
+| Applications (*) | Spark: Spark 2.1.0 on Hadoop 2.7.3 YARN with Ganglia 3.7.2 and Zeppelin 0.6.2 |
+| Instance type | m3.xlarge |
+| Number of instances | <however_many_you_need> |
+| EC2 key pair (*) | <key_pair_name_you_created> |
+| Permissions | Default |
+| EMR Role | EMR_DefaultRole |
+| EC2 instance profile | EMR_EC2_DefaultRole |
+
+3. Click Create Cluster at bottom right of page.
+
+4. Wait for your cluster status to change to waiting
+
+![](images/cluster_waiting.png)
+
+**NOTE**: Occasionally your cluster will fail to launch with the error message **Terminated with errors**: Failed to provision ec2 instances because 'The requested instance profile EMR_AutoScaling_DefaultRole is invalid'.  If this happens, just try and launch the cluster again and it should work.
+
+5. To connect to your spark cluster, click the SSH link next to the Master Public DNS (see picture below)
+
+![](images/cluster_waiting_ssh.png)
+
+6. When you do this, the below dialogue box will pop up. Copy the code that is shown in the red box, and run it from the command line.
+
+![](images/ssh_cli_input.png)
+
+
 
 # General Code Snippets
 
