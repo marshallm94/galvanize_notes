@@ -3,10 +3,10 @@
 # Takes three arguments:
 #   bucket name - one that has already been created
 #   name of key file - without .pem extension
-#   number of slave instances
+#   number of slave instances (the number you selected when launching the cluster - 1 [for the master node])
 #      ex. bash launch_cluster.sh mybucket mypem 2
 
-# This script assumes that the file bootstrap-emr.sh is 
+# This script assumes that the file bootstrap-emr.sh is
 #   in your current directory.
 
 # Requires the awscli to be set up, need to have correct default region configured

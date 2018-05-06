@@ -1604,7 +1604,7 @@ Process (pretty self-explanatory):
 
 "Amazon EMR provides a managed Hadoop framework that makes it easy, fast, and cost-effective to process vast amounts of data across dynamically scalable Amazon EC2 instances. You can also run other popular distributed frameworks such as Apache Spark, HBase, Presto, and Flink in Amazon EMR, and interact with data in other AWS data stores such as Amazon S3 and Amazon DynamoDB"
 
-#### Running Spark using EMR
+#### Running Spark Using EMR
 
 * *Note that the following process assumes that you have already created a EC2 Key Pair for your Spark Cluster*
 
@@ -1623,6 +1623,9 @@ To connect using the AWS GUI:
 
 1. Go to the [AWS EMR Console](https://console.aws.amazon.com/elasticmapreduce/home?region=us-east-1)
 2. Enter the following as settings:
+
+* *Note that since your bucket name has to be universally unique across all bucket names on AWS, your bucket name will look something like this:*
+    `s3://my_super_sick_bucket_name/`
 
 | *Setting* | *Value* |
 | ------- | ----- |
@@ -1651,11 +1654,91 @@ To connect using the AWS GUI:
 
 ![](images/cluster_waiting_ssh.png)
 
-6. When you do this, the below dialogue box will pop up. Copy the code that is shown in the red box, and run it from the command line.
+6. When you do this, the below dialogue box will pop up. Copy the code that is shown in the red box, and run it from the command line. This should connect you to the mainframe.
+
+    * Note that you will have to edit to path to your pem file to be where it is on you machine, most likely `~/.ssh/test.pem` (in the example shown below, `test.pem` is assumed to be in the home directory `~/`).
 
 ![](images/ssh_cli_input.png)
 
+* Note that if you are going to be using this cluster frequently, it could be useful to add it to the config file in your `.ssh/` directory, in the format shown below.
 
+    ```
+    # First Spark Cluster
+    Host example_name
+        HostName ec2-XX-XXX-XX-X.compute-1.amazonaws.com
+        User hadoop
+        IdentityFile ~/path/to/your/keypair/file/used/to/start/cluster
+    ```
+
+    * After you have done this, you will need to edit the inbound rules for the Master node. Click on the link in the red box below
+
+    ![](images/cluster_waiting_master_rules.png)
+
+    * This will bring to the Security groups page for you cluster. Click Edit inbound rules from the Actions drop down menu when the Master node is selected (see picture below)
+
+    ![](images/edit_inbound_rules.png)
+
+    * This will open another dialogue box that allows you to specify rules for your cluster. Change one of the rules (**not one of the first two**) to be SSH under Type and Anywhere under Source (see picture below). Save your changes at the bottom of the dialogue box.
+
+    ![](images/edit_inbound_rules_box.png)
+
+    * Once all of the above is complete, you will be able to run `ssh example_name` from the command line and connect to your cluster    
+
+7. When you terminal header (for lack of a better word) has changed to look something like `[hadoop@ip-172-31-90-207 ~]$`, you can type `$ pyspark`, and you will now be running Apache Spark on your EMR Cluster.
+
+
+### Bootstrapping Your Cluster
+
+The above process gets you running spark on a remote cluster. However, this cluster doesn't have much else on it in terms of data science capability. To create an OS environment that allows for more data science computing, you will want to install some application, namely Anaconda, on your cluster.
+
+The `galvanize_notes/bash_scripts/` directory has two bash scripts, that can be run from the command line.
+
+#### `launch_cluster.sh`
+
+The `launch_cluster.sh` file allows you to launch an EMR cluster from your command line. The syntax you will use is:
+
+    $ bash launch_cluster.sh (your_bucket_name) (your_key_pair_name) (number_of_worker_nodes_desired)
+
+* This creates an EMR cluster that uses (your_bucket_name), (your_key_pair_name), whether that is one that you just created or one that you already had. This cluster will have (number_of_worker_nodes_desired) worker nodes.
+
+* **Note that (your_key_pair_name), which is a .pem file, does NOT have the .pem extension when being run from the command line.**
+
+* Example:
+
+    `bash launch_cluster.sh myfirstbucket test 3`
+
+    * By running the above command at the command line, you are creating a cluster that has 3 worker nodes, that utilizes the "test" key pair and the S3 bucket called "myfirstbucket".
+
+Once you have run the above code from the command line, go to the [EMR Dashboard on AWS](https://console.aws.amazon.com/elasticmapreduce/), and you should see a cluster named "PySparkCluster" spinning up.
+
+#### `bootstrap-emr.sh`
+
+When the status of "PySparkCluster" has changed to "Bootstrapping" (see image below), the `bootstrap-emr.sh` script is being run on your cluster. As it is currently written, it is installing Anaconda, Git and tmux.
+
+![](images/boostrapping_cluster.png)
+
+Once the status of "PySparkCluster" has changed from "Bootstrapping" to "Waiting", you can connect to your cluster using the SSH command provided (see step 6 of "Running Spark Using EMR")
+
+You are now connected to your bootstapped cluster.
+
+### Copying Files to Your Cluster
+
+There are two ways to copy files to your cluster:
+
+1. **Using Git**
+
+    * Assuming you have git installed on your cluster from the previous Walkthrough, you can go to Github and clone the repo that you are working on using standard syntax (**you will have to use the https:// version**)
+    * From there, you can run/work on any file in that repo using IPython/nano.
+
+2. **Using `SCP`**
+
+    * `scp`(Secure Copy Protocol) allows you to transfer files from a local host to a remote host. The syntax to do so (from the local host) is as follows:
+
+    `$ scp ~/path/to/you/file hadoop@ec2-34-227-228-152.compute-1.amazonaws.com:/path/to/your/remote/file`
+
+    * You will replace the `ec2-34-227-228-152.compute-1.amazonaws.com` above with the Master Public DNS shown on your cluster's status page, shown in the red box in the image below.
+
+![](images/remote_host_DNS.png)
 
 # General Code Snippets
 
