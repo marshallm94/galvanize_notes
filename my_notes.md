@@ -849,10 +849,10 @@ def log_odds_to_prob(log_odds):
 * However, both Ridge and Lasso have an additional term appended onto the loss function of a linear model, the RSS:
 
     * Ridge: **$\lambda$** multiplied by the summation of the *squares* of all coefficients. ($l2$ penalty)
-        * So, the loss function becomes $$RSS - \lambda\sum_{j=1}^p\beta_i^2$$
+        * So, the loss function becomes $$RSS + \lambda\sum_{j=1}^p\beta_i^2$$
 
     * Lasso: **$\lambda$** multiplied by the summation of the *absolute values* of all the  coefficients. ($l1$ penalty)
-        * So, the loss function becomes $$RSS - \lambda\sum_{j=1}^p|\beta_i|$$
+        * So, the loss function becomes $$RSS + \lambda\sum_{j=1}^p|\beta_i|$$
 
 The tuning parameter **$\lambda$** is best selected using cross validation. The practical difference between Lasso and Ridge regression is that Lasso will set some of the coefficients equal to *exactly zero* while ridge regression shrinks the coefficients *towards zero*.
 
