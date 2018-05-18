@@ -353,7 +353,7 @@ When you are working with API's (i.e. not web-scraping) you are probably going t
 
 # Statistics
 
-## Frequentist's vs Bayesian's
+## Frequentist vs Bayesian Frameworks
 
 In a frequentist world, there **are** global parameters that describe a population. That is to say that there is **one true mean** for some distribution. In a bayesian world, a distribution is defined by parameters that are based on **prior beliefs (current state of knowledge)**  of the values of those parameters (such as mean and variance). Evidence (data) is collected which then can be used to re-define the parameters of the bayesian distribution (now called the posterior distribution).
 
@@ -361,7 +361,7 @@ In a frequentist world, there **are** global parameters that describe a populati
 
 Bayes Theorem has names for each of the terms in the equation:
 
-        P(A|B) = P(B|A) * P(A) / P(B)
+* **P(A|B) = P(B|A) * P(A) / P(B)**
 
 where:
 
@@ -370,7 +370,9 @@ where:
 * P(B|A) = **Likelihood**
 * P(A) = **Prior**
 
-When you are performing Bayes Theorem, every time you calculate it you update the prior to be equal to the posterior of the last iteration.
+Bayes Theorem can be read (out loud) as, "The probability of a hypothesis given evidence **P(H|E)** for that hypothesis is equal to the the probability of that evidence given that hypothesis **P(E|H)** multiplied by the probability of the hypothesis **P(H)**, all divided by the probability of observing the evidence **P(E)**"
+
+* When you are performing Bayes Theorem, every time you calculate it you update the prior to be equal to the posterior of the last iteration.
 
 ### Naive Bayes
 
@@ -930,7 +932,7 @@ y_hat = knn.predict(x_test)
 
 * Entropy:
 
-    * Measure the *diversity* in a sample.
+    * Measure the *diversity/disorder* in a sample.
 
         * High entropy = high diversity in sample
         * Low entropy = low diversity in sample (very "pure")
@@ -1030,9 +1032,18 @@ def information_gain(y, y1, y2, criteria='entropy'):
             summation_term += counter[i] / len(y) * gini(children[x])
         return gini(y) - summation_term
 
+
+def continous_info_gain(parent_array, child_array_1, child_array_2):
+    parent_var = np.var(parent_array)
+    child_1_var = np.var(child_array_1)
+    child_2_var = np.var(child_array_2)
+    return parent_var - (len(child_array_1)/len(parent_array) * child_1_var) - (len(child_array_2)/len(parent_array) * child_2_var)
+
 ```
 
 #### Bagging
+
+* **Note that Bagging can be used for non tree based methods as well**
 
 1. Create bootstrapped samples
 2. Build one tree per bootstrapped sample
@@ -1090,7 +1101,7 @@ All three of the below classifiers are defined by their $support~vectors$, which
 
     * The SVC seeks to find the hyperplane that correctly classifies **most** of the training observations. It does allow some of the observations to be on the wrong side of the margin and to even be on the wrong side of the hyperplane (misclassified).
 
-    * The Tuning parameter $C$ can be described as the *budget for error*. **The arger the budget for errors to the hyperplane and to the margin, the higher the bias of your classifier and the lower the variance.** So, "turning the knob" of $C$ widens and narrows the margin around the hyperplane.
+    * The Tuning parameter $C$ can be described as the *budget for error*. **The larger the budget for errors to the hyperplane and to the margin, the higher the bias of your classifier and the lower the variance.** So, "turning the knob" of $C$ widens and narrows the margin around the hyperplane.
 
         * So, when you set $C$ equal to zero, that is you allow for no violations to the hyperplane or the margin, you end up with the Maximal Margin Classifier.
 
