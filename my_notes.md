@@ -353,6 +353,10 @@ When you are working with API's (i.e. not web-scraping) you are probably going t
 
 # Statistics
 
+## Frequentist's vs Bayesian's
+
+In a frequentist world, there **are** global parameters that describe a population. That is to say that there is **one true mean** for some distribution. In a bayesian world, a distribution is defined by parameters that are based on **prior beliefs (current state of knowledge)**  of the values of those parameters (such as mean and variance). Evidence (data) is collected which then can be used to re-define the parameters of the bayesian distribution (now called the posterior distribution).
+
 ## Bayes Theorem
 
 Bayes Theorem has names for each of the terms in the equation:
@@ -366,7 +370,7 @@ where:
 * P(B|A) = **Likelihood**
 * P(A) = **Prior**
 
-When you are performing Bayes Theorem, everytime you calculate it you update the prior to be equal to the posterior of the last iteration.
+When you are performing Bayes Theorem, every time you calculate it you update the prior to be equal to the posterior of the last iteration.
 
 ### Naive Bayes
 
