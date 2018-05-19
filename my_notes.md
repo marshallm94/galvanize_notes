@@ -575,7 +575,7 @@ Process:
 2. Calculate any parameters needed for the hypothesized distribution
 
 	* If Binomial, calculate *p*
-	* if Poisson or Exponential, calculate *lamda*
+	* if Poisson or Exponential, calculate *lambda*
 	* If Normal, calculate the mean and variance
 	* etc.
 
@@ -1783,6 +1783,38 @@ from regression_tools.plotting_tools import (
 plt.style.use('bmh')
 
 # Plotting
+
+def distribution_plot(df, column_name, target_column, xlab, ylab, title, filename=False, plot_type="box", order=None):
+    """
+    Create various plot types leverage matplotlib.
+    Inputs:
+        df: (Pandas DataFrame)
+        column_name: (str) - A column in df that you want to have on the x-axis
+        target_column: (str) - A column in df that you want to have on the y_axis
+        xlab, ylab, title: (all str) - Strings for the x label, y label and title of the plot, respectively.
+        filename: (str) - the relative path to which you would like to save the image
+        plot_type: (str) - "box", "violin" or "bar"
+        order: (None (default) or list) - the ordering of the variable on the x-axis
+    Output:
+        None (displays figure and saves image)
+    """
+    fig = plt.figure(figsize=(13,6))
+    ax = fig.add_subplot(111)
+    if plot_type == "box":
+        ax = sns.boxplot(df[column_name], df[target_column], order=order)
+    elif plot_type == "violin":
+        ax = sns.violinplot(df[column_name], df[target_column])
+    elif plot_type == "bar":
+        ax = sns.barplot(df[column_name], df[target_column], palette="Greens_d", order=order)
+    ax.set_xlabel(xlab, fontweight="bold", fontsize=14)
+    ax.set_ylabel(ylab, fontweight="bold", fontsize=14)
+    plt.xticks(rotation=75)
+    plt.suptitle(title, fontweight="bold", fontsize=16)
+    if filename:
+        plt.savefig(filename)
+    plt.tight_layout()
+    plt.subplots_adjust(top=0.9)
+    plt.show()
 
 def multi_class_scatter_plot(arr_1, arr_2, y):
     import matplotlib.colors as colors
