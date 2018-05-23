@@ -1816,12 +1816,15 @@ def distribution_plot(df, column_name, target_column, xlab, ylab, title, filenam
     plt.subplots_adjust(top=0.9)
     plt.show()
 
-def multi_class_scatter_plot(arr_1, arr_2, y):
-    import matplotlib.colors as colors
-    color_list = list(colors.cnames.keys())
+def multi_class_scatter_plot(arr_1, arr_2, y, color_list=False):
     classes = np.unique(y)
+    if color_list:
+        continue
+    if not color_list:
+        import matplotlib.colors as colors        
+        color_list = np.random.choice(list(colors.cnames.keys()), len(classes))
 
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(8,6))
     for i in classes:
         color = np.random.choice(color_list)
         mask = y == i
@@ -1830,6 +1833,55 @@ def multi_class_scatter_plot(arr_1, arr_2, y):
     ax.legend()
     plt.show()
 
+def horizontal_bar_plot(arr_1, y, title, color_list=False, savefig=False):
+    classes = np.unique(arr_1)
+
+    if color_list:
+        continue
+    if not color_list:
+        import matplotlib.colors as colors                
+        color_list = np.random.choice(list(colors.cnames.keys()), len(classes))
+
+    desc_idx = np.argsort(y)[::-1]
+    classes = classes[desc_idx]
+    y = y[desc_idx]
+
+    y_axis = np.arange(len(classes))
+    fig, ax = plt.subplots(figsize=(8,6))
+    for x in range(len(classes)):
+        color = color_list[x]
+        ax.barh(y_axis[x], y[x], color=color, label="{}".format(classes[x]))
+
+    ax.set_yticks([])
+    ax.invert_yaxis()
+    ax.set_xlabel("Count", fontsize=16)
+    plt.suptitle(title, fontsize=18, fontweight="bold")
+    plt.legend()
+    if not savefig:
+        plt.show()
+    else:
+        plt.savefig(savefig)
+
+def multi_class_bar_plot(arr_1, y, title, color_list=False):
+    classes = np.unique(arr_1)
+    if color_list:
+        continue
+    if not color_list:
+        import matplotlib.colors as colors        
+        color_list = np.random.choice(list(colors.cnames.keys()), len(classes))
+
+    x_axis = np.linspace(0, len(classes), len(classes))
+    fig, ax = plt.subplots(figsize=(8,6))
+    for x, i in enumerate(classes):
+
+        color = color_list[x]
+        mask = arr_1 == i
+        ax.bar(x_axis[x],height=y[x], color=color, label=f"{i}")
+
+    plt.xticks([])
+    ax.legend()
+    plt.suptitle(title, fontsize=18, fontweight="bold")
+    plt.show()
 
 def scatter_plot(x, y, df, xlab, ylab, title):
     fig = plt.figure(figsize=(8,6))
@@ -1924,11 +1976,16 @@ def count_nans(df, verbose=True):
     Calculates NaN percentages per column in a pandas DataFrame.
 
     Parameters:
-        df: (Pandas DataFrame)
-        verbose: (Boolean) Prints column names and NaN percentage if True
+    ----------
+    df : (Pandas DataFrame)
+    verbose : (bool)
+        If True (default), prints column names and NaN percentage
 
-    Output:
-        col_nans: List containing tuples of column names and percentage NaN for that column.
+    Returns:
+    ----------
+    col_nans : (list)
+        List containing tuples of column names and percentage NaN for
+        that column.
     """
     col_nans = []
     for col in df.columns:
