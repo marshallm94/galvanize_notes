@@ -507,6 +507,7 @@ Process:
 
 3. Define your significance level.
     * Convention is 0.05, which is interpreted as falsely rejecting the null hypothesis 5% of the time.
+    * the cut-off level for statistical significance
 
 4. Choose a statistical test and find the test statistic.
     * If you are testing whether two measurements are *different*, meaning you are not sure if the effect will be in one direction or another, you will use a two-tailed statistical test.
