@@ -1972,13 +1972,46 @@ def plot_roc(X, y, clf_class, **kwargs):
     plt.legend(loc="lower right")
     plt.show()
 
-def count_nans(df, verbose=True):
+def count_nulls(df, columns, verbose=True):
     """
-    Calculates NaN percentages per column in a pandas DataFrame.
+    Calculates null value percentages per column in a pandas DataFrame.
 
     Parameters:
     ----------
     df : (Pandas DataFrame)
+    columns : (list)
+        A list of strings of the columns to check for null values. Note
+        that even if you are checking only one column, it must be
+        contained within a list. (Pass df.columns to check all columns)
+    verbose : (bool)
+        If True (default), prints column names and NaN percentage
+
+    Returns:
+    ----------
+    col_nulls : (list)
+        List containing tuples of column names and percentage Null for
+        that column.
+    """
+    col_nulls = []
+    for col in columns:
+        percent_null = pd.isnull(df[col]).sum()/len(pd.isnull(df[col]))
+        col_nulls.append((col, percent_null))
+        if verbose:
+            print("{} | {:.2f}% Null".format(col, percent_null*100))
+
+    return col_nulls
+
+def count_nans(df, columns, verbose=True):
+    """
+    Calculates nan value percentages per column in a pandas DataFrame.
+
+    Parameters:
+    ----------
+    df : (Pandas DataFrame)
+    columns : (list)
+        A list of strings of the columns to check for null values. Note
+        that even if you are checking only one column, it must be
+        contained within a list. (Pass df.columns to check all columns)    
     verbose : (bool)
         If True (default), prints column names and NaN percentage
 
@@ -1989,13 +2022,13 @@ def count_nans(df, verbose=True):
         that column.
     """
     col_nans = []
-    for col in df.columns:
-        percent_nan = pd.isnull(df[col]).sum()/len(pd.isnull(df[col]))
+    for col in columns:
+        percent_nan = pd.isna(df[col]).sum()/len(pd.isna(df[col]))
         col_nans.append((col, percent_nan))
         if verbose:
             print("{} | {:.2f}% NaN".format(col, percent_nan*100))
 
-    return col_nans
+    return col_nans    
 
 def normalize(df):
     for col in df.select_dtypes(exclude=['object']).columns:
