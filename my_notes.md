@@ -490,7 +490,7 @@ Process:
 
 General Notes:
 
-* For all intensive purposes, t-tests are more conservative than z-tests, therefore t-test > z-tests.
+* For all intensive purposes, t-tests are more conservative than z-tests, therefore t-tests > z-tests.
 
 Process:
 
