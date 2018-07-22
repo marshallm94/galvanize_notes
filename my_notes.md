@@ -1700,10 +1700,10 @@ To connect using the AWS GUI:
 
     * Once all of the above is complete, you will be able to run `ssh example_name` from the command line and connect to your cluster    
 
-7. When you terminal header (for lack of a better word) has changed to look something like `[hadoop@ip-172-31-90-207 ~]$`, you can type `$ pyspark`, and you will now be running Apache Spark on your EMR Cluster.
+7. When your terminal header (for lack of a better word) has changed to look something like `[hadoop@ip-172-31-90-207 ~]$`, you can type `$ pyspark`, and you will now be running Apache Spark on your EMR Cluster.
 
 
-### Bootstrapping Your Cluster
+##### Bootstrapping Your Cluster
 
 The above process gets you running spark on a remote cluster. However, this cluster doesn't have much else on it in terms of data science capability. To create an OS environment that allows for more data science computing, you will want to install some application, namely Anaconda, on your cluster.
 
@@ -1737,7 +1737,7 @@ Once the status of "PySparkCluster" has changed from "Bootstrapping" to "Waiting
 
 You are now connected to your bootstapped cluster.
 
-### Copying Files to Your Cluster
+##### Copying Files to Your Cluster
 
 There are two ways to copy files to your cluster:
 
@@ -1755,6 +1755,12 @@ There are two ways to copy files to your cluster:
     * You will replace the `ec2-34-227-228-152.compute-1.amazonaws.com` above with the Master Public DNS shown on your cluster's status page, shown in the red box in the image below.
 
 ![](images/remote_host_DNS.png)
+
+### Amazon RDS - PostgreSQL
+
+[Step by Step Instructions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_GettingStarted.CreatingConnecting.PostgreSQL.html)
+
+[AWS RDS Dashboard](https://console.aws.amazon.com/rds/home?region=us-east-1)
 
 # General Code Snippets
 
