@@ -1758,9 +1758,61 @@ There are two ways to copy files to your cluster:
 
 ### Amazon RDS - PostgreSQL
 
-[Step by Step Instructions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_GettingStarted.CreatingConnecting.PostgreSQL.html)
+1. Navigate to your [AWS RDS Dashboard](https://console.aws.amazon.com/rds/home?region=us-east-1)
 
-[AWS RDS Dashboard](https://console.aws.amazon.com/rds/home?region=us-east-1)
+2. Scroll down and select Create Database (red arrow in image below) from the Create Database section of the Dashboard.
+
+    * Also note where your RDS will be hosted; the closer it is to you, the faster your queries/application will run (can be changed from the dropdown shown by the blue arrow).
+
+![](images/aws_rds_dashboard.png)
+
+3. Select PostgreSQL (or other framework if desired)
+
+4. Select Production or Dev/Test depending on the development stage.
+
+5. Select your DB details; defaults can be found on step 7 in the [AWS PostgreSQL RDS Set Up Instructions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_GettingStarted.CreatingConnecting.PostgreSQL.html)
+
+6. In Step 4: Configure Advanced Settings, **set the Public accessibility to Yes**
+
+7. Continue through and click Create Database
+
+8. Go to your [RDS Instances](https://us-west-1.console.aws.amazon.com/rds/home?region=us-west-1#dbinstances:) and wait for the status of the DB Instance to change to available.
+
+9. Once the status changes to available, click on the name of the DB Instance and find the Connect Section. Make note of the endpoint (red box in image below) and the port number.
+
+![](images/aws_rds_instance_endpoint.png)
+
+10. Connect to your database via the command line, using the syntax below, replacing:
+
+    * <DB_instance_endpoint> with the endpoint on your screen
+    * <port> with the port shown next to your endpoint
+    * <username> with the username in the Details Section of the DB Instance page (shown below)
+    * <database_name> with the DB Name in the Details Section of the DB Instance page (shown below)
+
+![](images/aws_rds_db_instance_details.png)
+
+```
+psql \
+   --host=<DB_instance_endpoint> \
+   --port=<port> \
+   --username=<username> \
+   --password \
+   --dbname=<database_name>
+```
+
+11. `$ Password for user <username>:` should pop up. Enter the password you used for this user when setting up the DB Instance.
+
+###### Helpful Links
+
+[Set Up](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_SettingUp.html)
+
+[AWS VPC Tutorial](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Tutorials.WebServerDB.CreateVPC.html)
+
+
+[AWS Virtual Private Cloud (VPC) Dashboard](https://console.aws.amazon.com/vpc/home?region=us-east-1)
+
+
+[Step by Step Instructions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_GettingStarted.CreatingConnecting.PostgreSQL.html)
 
 # General Code Snippets
 
